@@ -1,0 +1,23 @@
+{
+  "version": "2.2.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ycxu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marvin1023/react-form-next"
+  },
+  "license": "ISC",
+  "name": "react-form-next",
+  "description": "react form ui component",
+  "keywords": [
+    "form",
+    "react form component"
+  ],
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "classnames": "^2.2.6"
+  }
+}
