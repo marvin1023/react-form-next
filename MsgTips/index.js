@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import IconTips from 'IconTips';
-import './index.css';
+import IconTips from '../IconTips';
 
 function MsgTips(props) {
   const {

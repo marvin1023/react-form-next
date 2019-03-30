@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import MsgTips from 'MsgTips';
+import MsgTips from '../MsgTips';
 
 function FormItem(props) {
   const {
@@ -40,7 +40,7 @@ function FormItem(props) {
     if (type === 'textarea') {
       return (
         <textarea
-          id={name}
+          name={name}
           className={cssEleClass}
           value={value}
           onChange={changeHandler}
@@ -51,7 +51,7 @@ function FormItem(props) {
 
     return (
       <input
-        id={name}
+        name={name}
         className={cssEleClass}
         value={value}
         type={type}
