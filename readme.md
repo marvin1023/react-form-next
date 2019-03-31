@@ -1,355 +1,53 @@
-## 特性说明
+# Form 表单组件
 
-1、结构上整个组件可划分为 6 个部分：label、前缀、表单元素（placeholder）、后缀、说明文字，校验态。大概如下图：
+该表单组件主要解决了 form 的两个问题：
+
+- 各个元素如何排版布局
+- 表单验证
+
+具体设计思想：[React form 表单组件的解决方案](https://imweb.io/topic/5ca03c119239213a22d7549d)
+
+该组件主要提供了两个组件：
+
+- 表单组件 `Form`，
+- 表单项组件 `FormItem`，`FormItem` 可独立于 `Form` 组件使用，
+- 基于表单项的高阶组件 `FormItemContext`，与表单组件 `Form` 配合使用。
+
+Demo 可查看：
+
+- [FormItem 组件 demo](https://codesandbox.io/embed/pmr1lyl81q?fontsize=14)
+- [FormItemContext 组件与 Form 组件组合使用 demo](https://codesandbox.io/embed/j4nmm4p7kv?fontsize=14)
+
+## 安装与引用
+
+```bash
+npm install react-form-next --save-dev
+```
+
+```js
+import { Form, FormContext, FormItem } from "react-form-next";
+// 默认不带样式，如果需要样式，请导入
+import "react-form-next/index.css";
+```
+
+## FormItem 组件
+
+首先，整个表单可以分为多个表单项。而一个表单项从结构上可能会涉及到 6 个部分：label、前缀、表单元素（或自定义的表单元素）、后缀、说明文字，校验态。大概如下图：
 
 ![](./FormItem/img/form.png)
 
-2、除了常规的表单元素，也可以直接使用 children 自定义一些特殊元素。
+这样我们就可以根据这些封装成一个 `FormItem` 组件，其属性大概如下：
 
-3、表单验证采用统一验证的方式，验证的相关正则逻辑使用 [rsuite-schema](https://github.com/rsuite/rsuite-schema)
+![](./FormItem/img/form-item-props.png)
 
-## 常规使用
+具体各个属性的设计可以查看上面的设计思想：[React form 表单组件的解决方案](https://imweb.io/topic/5ca03c119239213a22d7549d)
 
-```jsx
-const initialState = { values: {
-  username: '',
-  email: '',
-  password: '',
-  comment: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-  <FormItem label="用户名" name="username" value={state.values.username} placeholder="用户名" onChange={changeHandler} />
-  <FormItem label="邮箱" name="email" value={state.values.email} type="email" onChange={changeHandler} />
-  <FormItem label="密码" name="password" value={state.values.password} type="password" onChange={changeHandler} />
-  <FormItem label=""  name="comment" value={state.values.comment} type="textarea" onChange={changeHandler} />
-</div>
-```
+具体使用可看 [FormItem 组件 demo](https://codesandbox.io/embed/pmr1lyl81q?fontsize=14) 的源码
 
-prefix、suffix、des
+## Form 组件
 
-```jsx
-const initialState = { values: {
-  username: '',
-  email: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem name="username" prefix="Hello" suffix="先生/女士" placeholder="用户名" value={state.values.username} onChange={changeHandler} />
-<FormItem name="email" des="用于验证号码" placeholder="邮箱" value={state.values.email} onChange={changeHandler} />
-</div>
-```
+`Form` 组件主要是使用 react 的 context 思想，将校验相关的三个属性`value`、`checkMsg`、`onChange` 通过 `Form` 组件传递给高级组件 `FormItemContext`。
 
-多个 items 一行显示
+而具体的检验将使用 [schema-typed](https://github.com/rsuite/schema-typed) 这个数据建模及数据验证工具。（该工具设计得非常赞，简直是眼前一亮，具体可以查看文档。）
 
-```jsx
-const initialState = { values: {
-  username: '',
-  email: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem inline label="用户名" name="username" value={ state.values.username } onChange={changeHandler} />
-<FormItem inline label="邮箱" type="email" name="email" value={ state.values.email } onChange={changeHandler} />
-</div>
-```
-
-simple 极简模式：结构简单，不包括验证信息
-
-```jsx
-const initialState = { values: {
-  username: '',
-  pwd: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem simple placeholder="请输入用户名" name="username" value={ state.values.username } onChange={changeHandler} />
-<FormItem simple placeholder="请输入密码" type="password" name="pwd" value={ state.values.email } onChange={changeHandler} />
-</div>
-```
-
-## 特殊化
-
-垂直显示
-
-```jsx
-const initialState = { values: {
-  age: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-
-<FormItem type="number" vertical name="age" value={state.values.age} label="请输入年龄" onChange={changeHandler} />
-```
-
-no label
-
-```jsx
-const initialState = { values: {
-  age: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-
-<FormItem type="number" name="age" value={state.values.age} placeholder="请输入年龄" onChange={changeHandler} />
-```
-
-元素禁用
-
-```jsx
-<FormItem type="textarea" name="comment" value="我是禁用的textarea" disabled />
-```
-
-自定义表单元素
-
-```jsx
-const initialState = { values: {
-  sex: [],
-  ids: [],
-} };
-
-const list = [
-  {
-    label: '男',
-  },
-  {
-    label: '女',
-  },
-  {
-    label: '未知',
-  },
-];
-
-const idsList = [
-  {
-    content: '身份证',
-    value: 1,
-  },
-  {
-    content: '驾驶证',
-    value: 2,
-  },
-  {
-    content: '护照',
-    value: 3,
-  }
-]
-
-function fn(data) {
-  console.log(data);
-  const { values } = state;
-  const {name, value} = data;
-  values[name] = value;
-  setState({
-    values,
-  });
-}
-<div>
-<FormItem label="性别" name="sex">
-  <RadioCheckboxList inline name="sex" list={list} value={state.values.sex} type="radio" onChange={fn} />
-</FormItem>
-<FormItem label="证件类型" name="ids">
-  <Select name="ids" list={idsList} value={state.values.ids} onChange={fn} />
-</FormItem>
-</div>
-```
-
-
-
-## 校验处理
-
-默认检验
-
-```jsx
-const formErr = {
-  username: {
-    hasError: true,
-    errorMessage: '用户名超过了10个字符',
-  },
-  email: {
-    hasError: false,
-  }
-}
-const initialState = { values: {
-  username: '',
-  email: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem label="用户名" name="username" value={ state.values.username } onChange={changeHandler} checkMsg={formErr.username} />
-<FormItem label="邮箱" type="email" name="email" value={ state.values.email } onChange={changeHandler} checkMsg={formErr.email} />
-</div>
-```
-
-inline 形式检验
-
-```jsx
-const formErr = {
-  username: {
-    hasError: true,
-    errorMessage: '用户名超过了10个字符',
-  },
-  email: {
-    hasError: false,
-  }
-}
-const initialState = { values: {
-  username: '',
-  email: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem inline label="用户名" name="username" value={ state.values.username } onChange={changeHandler} checkMsg={formErr.username} checkMsgShowBelow />
-<FormItem inline label="邮箱" type="email" name="email" value={ state.values.email } onChange={changeHandler} checkMsg={formErr.email} checkMsgShowBelow />
-</div>
-```
-
-将校验信息放在一起显示，不显示在单个的表单项后面
-
-```jsx
-const formErr = {
-  username: {
-    hasError: true,
-    errorMessage: '用户名超过了10个字符',
-  },
-  email: {
-    hasError: false,
-  }
-}
-const initialState = { values: {
-  username: '',
-  email: '',
-} };
-function changeHandler(name, value) {
-  setState({
-    values: {
-      [name]: value,
-    },
-  });
-}
-<div>
-<FormItem label="用户名" name="username" value={ state.values.username } onChange={changeHandler} checkMsg={formErr.username} checkMsgHide hideCheckMsg  />
-<FormItem label="邮箱" type="email" name="email" value={ state.values.email } onChange={changeHandler} checkMsg={formErr.email} checkMsgHide hideCheckMsg />
-</div>
-```
-
-## Form
-
-因为 FormItem 组件，每个组件都需要传入 value、checkMsg 及 onChange 事件，所以使用 context 进行了一层封装。大概实现逻辑如下：
-
-- 先在 Form 组件中定义 context，包括 value、checkMsg 及 onChange 三个属性
-- 再定义一个高阶组件 FromItemContext，传入 FormItem 组件，使用 context
-
-注：context 使用了 react 16.3.x 引入的新的[context api](https://reactjs.org/docs/context.html)，使用之前请确保升级了 react 到 react 16.3.x。
-
-```jsx
-import React, { Component } from 'react';
-// 引入 rsuite-schema 来做统一检验
-import { SchemaModel, StringType, NumberType } from 'rsuite-schema';
-import { Form, FormItemContext, FromItem } from 'react-form-next';
-
-
-class FormDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      values: {
-        username: '',
-        email: '',
-        age: 'N/A',
-      },
-      formErr: {}, // 校验信息字段
-    };
-
-    // 创建检验schema
-    this.formModel = SchemaModel({
-      username: StringType().isRequired('用户名不能为空'),
-      email: StringType().isRequired('邮箱不能为空').isEmail('请输入正确的邮箱'),
-      age: NumberType('年龄应该是一个数字').range(18, 30, '年应该在 18 到 30 岁').isRequired('年龄不能为空'),
-    });
-  }
-  handleChange = (name, value) => {
-    // age 实时检验
-    if (name === 'age') {
-      const { formErr } = this.state;
-      // checkForField 单个检验
-      formErr[name] = this.formModel.checkForField(name, value);
-      this.setState({
-        formErr: Object.assign({}, formErr),
-      });
-    }
-
-    this.setState({
-      values: {
-        [name]: value,
-      },
-    });
-  }
-
-  checkForm = () => {
-    // check 全部校验
-    this.setState({
-      formErr: this.formModel.check(this.state.values),
-    });
-  }
-
-  render() {
-    return (
-      <Form values={this.state.values} checkMsg={this.state.formErr} onChange={this.handleChange}>
-        <FormItemContext label="用户名" type="text" name="username" />
-        <FormItemContext label="邮箱" type="email" name="email" />
-        <FormItemContext label="年龄" type="number" name="age" />
-        <FormItem label="" name="submit">
-          <span className="s-btn s-btn--primary s-btn--m" onClick={this.checkForm}>提交</span>
-        </FormItem>
-      </Form>
-    );
-  }
-}
-```
+注：context 使用了 react 16.3.x 引入的新的[context api](https://reactjs.org/docs/context.html)，使用之前请确保升级了 react 到 react 16.3.x 或以上。

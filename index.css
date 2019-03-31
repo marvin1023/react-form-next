@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+.demo {
+  background: #eee;
+  padding: 20px;
+}
+
 .s-icon-tips {
   fill: currentColor;
 }
@@ -33,17 +38,16 @@
 }
 .icon-tips--xxl {
   width: 48px;
-  width: 48px;
+  height: 48px;
 }
 
 .s-msg-tips {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .s-msg-tips .s-icon-tips {
   margin-right: 5px;
+  flex-shrink: 0;
 }
 
 .s-msg-tips .msg-tips-txt {
@@ -77,18 +81,12 @@
 .s-msg-tips.s-msg-tips--s .msg-tips-txt,
 .s-msg-tips.s-msg-tips--m .msg-tips-txt {
   position: relative;
-  top: 1px;
 }
 .s-f-item:not(.s-f-item--vertical) {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .s-f-item:not(.s-f-item--vertical) .s-f-field {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
   flex: 1;
-  width: 1%;
 }
 .s-f-item:not(:last-child) {
   margin-bottom: 20px;
@@ -97,24 +95,20 @@
   width: 100px;
   text-align: right;
   margin-right: 10px;
-  line-height: 30px;
+  line-height: 36px;
 }
 .s-f-item .s-f-required {
   color: #ff6923;
 }
 .s-f-item .s-f-field {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
 }
 .s-f-item .s-f-msg {
   margin-left: 10px;
 }
 .s-f-item .s-f-des {
-  margin-left: 10px;
+  margin: 0 0 0 10px;
   color: #bbb;
 }
 .s-f-item .s-f-suffix {
@@ -130,34 +124,34 @@
   color: #ff6923;
 }
 .s-f-item.s-f-item--check-msg-below .s-f-field {
-  padding-bottom: 25px;
+  padding-bottom: 20px;
   position: relative;
 }
 .s-f-item.s-f-item--check-msg-below .s-f-field .s-f-msg {
   position: absolute;
   left: 0;
-  bottom: 5px;
+  bottom: 0px;
   margin-left: 0;
 }
 .s-f-item.s-f-item--inline {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 .s-f-ele {
-  height: 30px;
+  height: 36px;
   padding: 5px;
   border: 1px solid #ddd;
   width: 270px;
-  -webkit-box-sizing: border-box;
+  border-radius: 3px;
   box-sizing: border-box;
+  font-size: 14px;
 }
 .s-f-ele.s-f-ele--error {
   border-color: #ff6923;
 }
-.s-f-ele [disabled],
-.s-f-ele .disabled {
+.s-f-ele[disabled],
+.s-f-ele.disabled {
   color: #777;
+  background: #f4f4f4;
 }
 .s-f-ele:not(.disabled):hover,
 .s-f-ele:not([disabled]):hover {
@@ -165,4 +159,18 @@
 }
 textarea.s-f-ele {
   height: 80px;
+}
+.s-btn {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 36px;
+  padding: 0 10px;
+  min-width: 80px;
+  background: #23b8ff;
+  color: #fff;
+  text-align: center;
+  border-radius: 3px;
+}
+.s-btn:hover {
+  background: #00a4f0;
 }
