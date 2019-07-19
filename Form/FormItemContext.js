@@ -1,19 +1,20 @@
-import React from 'react';
-import FormContext from './FormContext';
-import FormItem from '../FormItem';
+import React from "react";
+import FormContext from "../FormContext";
+import FormItem from "../FormItem";
 
 export function withFormContext(Component) {
-  return (props) => {
+  return props => {
     const { name } = props;
 
+    const { values, checkMsg, onChange } = useContext(FormContext);
+
     return (
-      <FormContext.Consumer>
-        {({ values, checkMsg, onChange }) => {
-          return (
-            <Component value={values[name]} checkMsg={checkMsg[name]} onChange={onChange} {...props} />
-          );
-        }}
-      </FormContext.Consumer>
+      <Component
+        value={values[name]}
+        checkMsg={checkMsg[name]}
+        onChange={onChange}
+        {...props}
+      />
     );
   };
 }
