@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const FormContext = React.createContext({
   values: {},
   checkMsg: {},
-  onChange: () => {},
+  onChange: () => {}
 });
 
 export default FormContext;
