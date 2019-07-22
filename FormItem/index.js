@@ -42,7 +42,7 @@ function FormItem(props) {
         <textarea
           name={name}
           className={cssEleClass}
-          value={value}
+          value={value || ''}
           onChange={changeHandler}
           {...rest}
         />
@@ -53,7 +53,7 @@ function FormItem(props) {
       <input
         name={name}
         className={cssEleClass}
-        value={value}
+        value={value || ''}
         type={type}
         onChange={changeHandler}
         {...rest}

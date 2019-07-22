@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import FormContext from './FormContext';
+import FormContext from '../FormContext';
 
 function Form(props) {
   const {

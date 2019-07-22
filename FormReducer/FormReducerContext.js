@@ -34,7 +34,7 @@ function withFormContext(Component) {
     };
 
     // 如果是提交按钮则先检验
-    if (Component.name === 'Btn') {
+    if (!Component) {
       // 提交之前先自动校验
       const submitHandler = () => {
         // console.log(values, 'submitHandler');
@@ -65,4 +65,4 @@ function withFormContext(Component) {
 }
 
 export const FormReducerItemContext = withFormContext(FormItem);
-export const FormReducerSubmitContext = withFormContext(Btn);
+export const FormReducerSubmitContext = withFormContext();
