@@ -1,6 +1,6 @@
-import React from "react";
-import FormContext from "../FormContext";
-import FormItem from "../FormItem";
+import React, {useContext} from 'react';
+import FormContext from '../FormContext';
+import FormItem from '../FormItem';
 
 export function withFormContext(Component) {
   return props => {
